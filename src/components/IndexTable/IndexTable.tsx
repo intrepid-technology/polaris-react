@@ -268,22 +268,12 @@ function IndexTableBase({
       SelectionType.Page,
       Boolean(!bulkSelectState || bulkSelectState === 'indeterminate'),
     );
-    console.log('BulkAction', checkableButtons);
-    let checkbox;
-
-    if (condensed) {
-      checkbox = checkableButtons.get('bulkSm');
-    } else if (!(!bulkSelectState || bulkSelectState === 'indeterminate')) {
-      checkbox = checkableButtons.get('plain');
-    } else {
-      checkbox = checkableButtons.get('bulkLg');
-    }
-
+    const checkbox = checkableButtons.get('plain');
     // setTimeout ensures execution after the Transition on BulkActions
     setTimeout(() => {
       checkbox && checkbox.focus();
     }, 0);
-  }, [bulkSelectState, handleSelectionChange, checkableButtons, condensed]);
+  }, [bulkSelectState, handleSelectionChange, checkableButtons]);
 
   const paginatedSelectAllAction = getPaginatedSelectAllAction();
 
@@ -399,11 +389,15 @@ function IndexTableBase({
             </div>
           );
 
-          const stickyContent = bulkActionsMarkup
-            ? bulkActionsMarkup
-            : headerMarkup;
+          const stickyHeaderCotentMarkup =
+            !shouldShowBulkActions && headerMarkup;
 
-          return stickyContent;
+          return (
+            <>
+              {bulkActionsMarkup}
+              {stickyHeaderCotentMarkup}
+            </>
+          );
         }}
       </Sticky>
     </div>
@@ -563,7 +557,7 @@ function IndexTableBase({
         })}
         plain
         onToggleAll={handleSelectPage}
-        checked={bulkSelectState}
+        selected={bulkSelectState}
       />
     );
   }
@@ -588,30 +582,14 @@ function IndexTableBase({
     return headingContent;
   }
 
-  function handleSelectPage(checked: boolean) {
-    handleSelectionChange(SelectionType.Page, checked);
-    console.log('CheckableButton', checkableButtons);
-    // going from regular checkable button to bulk actions checkable button
-    // going from bulk action checkable button to regular checkable button
-    // going from the scrolled checkable button to bulk action checkable button
-    // going from bulk action checkable button to scrolled checkable button
+  function handleSelectPage() {
+    handleSelectionChange(SelectionType.Page, true);
 
-    let checkbox;
-
-    // if (condensed) {
-    //   checkbox = checkableButtons.get('bulkSm');
-    // } else if (!(!bulkSelectState || bulkSelectState === 'indeterminate')) {
-    //   checkbox = checkableButtons.get('plain');
-    // } else {
-    //   checkbox = checkableButtons.get('bulkLg');
-    // }
-
-    checkbox = checkableButtons.get('bulkLg');
+    const checkbox = checkableButtons.get('bulkLg');
 
     // setTimeout ensures execution after the Transition on BulkActions
     setTimeout(() => {
       checkbox && checkbox.focus();
-      console.log(checkbox.focus);
     }, 0);
   }
 
