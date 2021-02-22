@@ -301,7 +301,7 @@ describe('<IndexTable>', () => {
           itemCount={2}
           promotedBulkActions={[{content: 'promoted action'}]}
           onSelectionChange={onSelectionChangeSpy}
-          parentResourceName='this discount'
+          parentResourceName="this discount"
         >
           {mockTableItems.map(mockRenderRow)}
         </IndexTable>,
