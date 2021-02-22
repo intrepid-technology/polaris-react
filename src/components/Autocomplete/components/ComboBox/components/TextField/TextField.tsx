@@ -61,9 +61,9 @@ export function TextField({
 
   return (
     <PolarisTextField
+      autoComplete={false}
       {...rest}
       value={value}
-      autoComplete={false}
       id={textFieldId}
       onFocus={handleFocus}
       onBlur={handleBlur}
